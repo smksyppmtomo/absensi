@@ -1,0 +1,582 @@
+<!doctype html>
+<html lang="id">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#3b82f6">
+  <meta name="description" content="Absensi Guru/Staff SMK YPPM Tomo">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Absensi Guru/Staff">
+  <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkFic2Vuc2kgR3VydS9TdGFmZiBTTUsgWVBQTSBUb21vIiwKICAic2hvcnRfbmFtZSI6ICJBYnNlbnNpIFNNSyIsCiAgInN0YXJ0X3VybCI6ICIuLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgImJhY2tncm91bmRfY29sb3IiOiAiI2YwZjlmZiIsCiAgInRoZW1lX2NvbG9yIjogIiMzYjgyZjYiLAogICJpY29ucyI6IFsKICAgIHsKICAgICAgInNyYyI6ICJodHRwczovL2lpbGkuaW8vS2pJS01KOS5wbmciLAogICAgICAic2l6ZXMiOiAiNTEyeDUxMiIsCiAgICAgICJ0eXBlIjogImltYWdlL3BuZyIKICAgIH0KICBdCn0=">
+  <link rel="icon" type="image/png" href="https://iili.io/KjIKMJ9.png">
+  <link rel="apple-touch-icon" href="https://iili.io/KjIKMJ9.png">
+  <title>Absensi Guru/Staff</title>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    .toast {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      padding: 16px 24px;
+      border-radius: 8px;
+      font-weight: 500;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      z-index: 1000;
+      animation: slideIn 0.3s ease-out;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    .toast-success {
+      background-color: #10b981;
+      color: white;
+    }
+    
+    .toast-error {
+      background-color: #ef4444;
+      color: white;
+    }
+    
+    .toast-info {
+      background-color: #3b82f6;
+      color: white;
+    }
+  </style>
+  <style>@view-transition { navigation: auto; }</style>
+  <script src="/_sdk/data_sdk.js" type="text/javascript"></script>
+ </head>
+ <body>
+  <div id="app" class="w-full min-h-full flex items-center justify-center p-3 sm:p-4 md:p-6">
+   <div class="w-full max-w-lg"><button id="manualInstallButton" class="w-full mb-4 py-3 px-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg shadow-lg hover:from-blue-700 hover:to-blue-800 transition-all transform hover:scale-105 active:scale-95 flex items-center justify-center gap-2 touch-manipulation" onclick="installApp()"> <img src="https://iili.io/KjIKMJ9.png" alt="Install" style="width: 24px; height: 24px; object-fit: contain;" onerror="this.style.display='none';"> <span id="installButtonText">Install Aplikasi</span> </button>
+    <div class="bg-white rounded-xl sm:rounded-2xl shadow-xl p-4 sm:p-6 md:p-8">
+     <div class="flex flex-col items-center mb-4 sm:mb-6">
+      <div class="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mb-3 sm:mb-4"><img src="https://iili.io/KjIKMJ9.png" alt="Logo SMK YPPM Tomo" class="w-full h-full object-contain" onerror="this.style.display='none';">
+      </div>
+      <h2 id="schoolName" class="text-base sm:text-lg md:text-xl font-bold text-center mb-2">SMK YPPM TOMO</h2>
+     </div>
+     <h1 id="formTitle" class="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-4 sm:mb-6 md:mb-8">Form Absensi Guru &amp; Staff</h1>
+     <form id="absensiForm" class="space-y-4 sm:space-y-5 md:space-y-6">
+      <div><label for="nama" class="block text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2">Nama Guru</label> <select id="nama" name="nama" required class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all text-sm sm:text-base"> <option value="">Pilih nama guru</option> <option value="Heri Heryana, S.Pd.">Heri Heryana, S.Pd.</option> <option value="SAWALI">SAWALI</option> <option value="Hadi Supriadi, S.Kom.">Hadi Supriadi, S.Kom.</option> <option value="Bambang Liman Maulana, S.Kom.">Bambang Liman Maulana, S.Kom.</option> <option value="Indra Mulyana, S.Pd.">Indra Mulyana, S.Pd.</option> <option value="Encep Syafaat Multazam, S.T.">Encep Syafaat Multazam, S.T.</option> <option value="Ajeng Saputri, S.S.">Ajeng Saputri, S.S.</option> <option value="Suci Indah Novianty, S.Pd.">Suci Indah Novianty, S.Pd.</option> <option value="Alih Nurningsih, S.Pd.">Alih Nurningsih, S.Pd.</option> <option value="Akus Kustandi, S.S.">Akus Kustandi, S.S.</option> <option value="Anna Muliawati, S.Ap.">Anna Muliawati, S.Ap.</option> <option value="Sania Listiawati">Sania Listiawati</option> <option value="Yofa Andre">Yofa Andre</option> <option value="Rifki Al Azhari">Rifki Al Azhari</option> </select>
+      </div>
+      <div><label for="tanggal" class="block text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2">Tanggal</label> <input type="date" id="tanggal" name="tanggal" required readonly class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all text-sm sm:text-base bg-gray-50">
+      </div>
+      <div><label for="jam" class="block text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2">Jam</label> <input type="time" id="jam" name="jam" required readonly class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all text-sm sm:text-base bg-gray-50">
+      </div>
+      <div><label for="status" class="block text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2">Status</label> <select id="status" name="status" required class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all text-sm sm:text-base"> <option value="">Pilih status</option> <option value="Masuk">Masuk</option> <option value="Pulang">Pulang</option> <option value="Dinas Keluar">Dinas Keluar</option> </select>
+      </div>
+      <div><label class="block text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2">Foto Selfie</label>
+       <div class="flex flex-col gap-3">
+        <div id="cameraPreview" class="w-full aspect-video bg-gray-100 rounded-lg overflow-hidden relative" style="display: none;">
+         <video id="videoElement" autoplay playsinline class="w-full h-full object-cover"></video>
+         <canvas id="canvasElement" class="hidden"></canvas>
+        </div>
+        <div id="photoPreview" class="w-full aspect-video bg-gray-50 rounded-lg overflow-hidden relative border-2 border-dashed border-gray-300 flex items-center justify-center" style="display: none;"><img id="capturedImage" class="w-full h-full object-cover" alt="Foto Selfie">
+        </div>
+        <div class="flex gap-2"><button type="button" id="openCameraBtn" class="flex-1 py-2.5 px-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition-all text-sm sm:text-base flex items-center justify-center gap-2" onclick="openCamera()"> <span></span> <span>Buka Kamera</span> </button> <button type="button" id="captureBtn" class="flex-1 py-2.5 px-4 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-all text-sm sm:text-base" onclick="capturePhoto()" style="display: none;">  Ambil Foto </button> <button type="button" id="retakeBtn" class="flex-1 py-2.5 px-4 bg-orange-600 text-white font-semibold rounded-lg hover:bg-orange-700 transition-all text-sm sm:text-base" onclick="retakePhoto()" style="display: none;">  Foto Ulang </button>
+        </div>
+       </div>
+      </div>
+      <div><label for="lokasi" class="block text-xs sm:text-sm font-semibold mb-1.5 sm:mb-2">Lokasi</label> <input type="text" id="lokasi" name="lokasi" required readonly class="w-full px-3 py-2.5 sm:px-4 sm:py-3 border-2 rounded-lg focus:outline-none focus:ring-2 transition-all text-sm sm:text-base bg-gray-50" placeholder="Mendeteksi lokasi...">
+       <p id="locationMessage" class="text-xs mt-1.5 text-gray-500"></p>
+      </div><button type="submit" id="submitButton" disabled class="w-full py-3 sm:py-3.5 md:py-4 rounded-lg font-semibold text-white transition-all transform hover:scale-105 focus:outline-none focus:ring-4 text-sm sm:text-base active:scale-95 touch-manipulation disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"> Menunggu Lokasi... </button>
+     </form>
+    </div>
+   </div>
+  </div>
+  <script>
+    const defaultConfig = {
+      background_color: "#f0f9ff",
+      card_color: "#ffffff",
+      text_color: "#1e293b",
+      primary_button: "#2563eb",
+      border_color: "#cbd5e1",
+      form_title: "Form Absensi Guru & Staff",
+      submit_button_text: "Kirim Absensi",
+      font_family: "system-ui",
+      font_size: 16
+    };
+
+    let isSubmitting = false;
+    let locationDetected = false;
+    let userCoordinates = null;
+    
+    const TARGET_LAT = -6.808488;
+    const TARGET_LON = 108.148847;
+    const MAX_DISTANCE_METERS = 500;
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+      const R = 6371e3;
+      const 1 = lat1 * Math.PI / 180;
+      const 2 = lat2 * Math.PI / 180;
+      const  = (lat2 - lat1) * Math.PI / 180;
+      const  = (lon2 - lon1) * Math.PI / 180;
+
+      const a = Math.sin( / 2) * Math.sin( / 2) +
+                Math.cos(1) * Math.cos(2) *
+                Math.sin( / 2) * Math.sin( / 2);
+      const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+      return R * c;
+    }
+
+    async function detectLocation() {
+      const locationInput = document.getElementById('lokasi');
+      const locationMessage = document.getElementById('locationMessage');
+      const submitButton = document.getElementById('submitButton');
+
+      if (!navigator.geolocation) {
+        locationMessage.textContent = 'Browser tidak mendukung deteksi lokasi';
+        locationMessage.style.color = '#ef4444';
+        locationInput.value = 'Lokasi tidak tersedia';
+        submitButton.disabled = true;
+        return;
+      }
+
+      locationMessage.textContent = 'Meminta izin akses lokasi...';
+      locationMessage.style.color = '#f59e0b';
+
+      navigator.geolocation.getCurrentPosition(
+        async (position) => {
+          userCoordinates = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy
+          };
+
+          const distance = calculateDistance(
+            userCoordinates.latitude, 
+            userCoordinates.longitude,
+            TARGET_LAT,
+            TARGET_LON
+          );
+
+          const coordinateString = `${userCoordinates.latitude.toFixed(7)}, ${userCoordinates.longitude.toFixed(7)}`;
+          locationInput.value = coordinateString;
+
+          const accuracyText = userCoordinates.accuracy < 50 
+            ? '(akurasi tinggi)' 
+            : userCoordinates.accuracy < 100 
+            ? '(akurasi sedang)' 
+            : '(akurasi rendah)';
+
+          locationMessage.textContent = `Koordinat terdeteksi ${accuracyText} - Jarak: ${Math.round(distance)}m dari sekolah`;
+          locationMessage.style.color = '#10b981';
+          locationDetected = true;
+          submitButton.disabled = false;
+          submitButton.textContent = defaultConfig.submit_button_text;
+        },
+        (error) => {
+          let errorMessage = '';
+          
+          switch(error.code) {
+            case error.PERMISSION_DENIED:
+              errorMessage = 'Mohon izinkan akses lokasi di pengaturan perangkat Anda';
+              break;
+            case error.POSITION_UNAVAILABLE:
+              errorMessage = 'Mohon aktifkan GPS di perangkat Anda dan pastikan berada di luar ruangan';
+              break;
+            case error.TIMEOUT:
+              errorMessage = 'Mohon aktifkan GPS di perangkat Anda terlebih dahulu';
+              break;
+            default:
+              errorMessage = 'Mohon aktifkan GPS dan izinkan akses lokasi';
+          }
+          
+          locationMessage.textContent = errorMessage;
+          locationMessage.style.color = '#f59e0b';
+          locationInput.value = 'Silakan aktifkan GPS';
+          submitButton.disabled = true;
+          submitButton.textContent = 'Aktifkan GPS';
+          
+          showToast(errorMessage, 'error');
+        },
+        {
+          enableHighAccuracy: true,
+          timeout: 15000,
+          maximumAge: 0
+        }
+      );
+    }
+
+    function showToast(message, type) {
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        toast.style.animation = 'slideIn 0.3s ease-out reverse';
+        setTimeout(() => toast.remove(), 300);
+      }, 3000);
+    }
+
+    async function onConfigChange(config) {
+      const appDiv = document.getElementById('app');
+      const card = appDiv.querySelector('.bg-white');
+      const title = document.getElementById('formTitle');
+      const schoolName = document.getElementById('schoolName');
+      const submitButton = document.getElementById('submitButton');
+      const inputs = document.querySelectorAll('input, select');
+      const labels = document.querySelectorAll('label');
+      
+      const customFont = config.font_family || defaultConfig.font_family;
+      const baseFontStack = 'system-ui, -apple-system, sans-serif';
+      const baseSize = config.font_size || defaultConfig.font_size;
+      
+      appDiv.style.backgroundColor = config.background_color || defaultConfig.background_color;
+      card.style.backgroundColor = config.card_color || defaultConfig.card_color;
+      
+      schoolName.style.color = config.text_color || defaultConfig.text_color;
+      schoolName.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      schoolName.style.fontSize = `${baseSize * 1.25}px`;
+      
+      title.textContent = config.form_title || defaultConfig.form_title;
+      title.style.color = config.text_color || defaultConfig.text_color;
+      title.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      title.style.fontSize = `${baseSize * 1.875}px`;
+      
+      submitButton.textContent = config.submit_button_text || defaultConfig.submit_button_text;
+      submitButton.style.backgroundColor = config.primary_button || defaultConfig.primary_button;
+      submitButton.style.fontFamily = `${customFont}, ${baseFontStack}`;
+      submitButton.style.fontSize = `${baseSize}px`;
+      
+      labels.forEach(label => {
+        label.style.color = config.text_color || defaultConfig.text_color;
+        label.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        label.style.fontSize = `${baseSize * 0.875}px`;
+      });
+      
+      inputs.forEach(input => {
+        input.style.borderColor = config.border_color || defaultConfig.border_color;
+        input.style.color = config.text_color || defaultConfig.text_color;
+        input.style.fontFamily = `${customFont}, ${baseFontStack}`;
+        input.style.fontSize = `${baseSize}px`;
+      });
+    }
+
+    document.getElementById('absensiForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      if (isSubmitting) return;
+      
+      if (!locationDetected) {
+        showToast('Lokasi belum terdeteksi. Mohon aktifkan lokasi terlebih dahulu.', 'error');
+        return;
+      }
+      
+      isSubmitting = true;
+      const submitButton = document.getElementById('submitButton');
+      const originalText = submitButton.textContent;
+      submitButton.textContent = 'Mengirim...';
+      submitButton.disabled = true;
+      submitButton.style.opacity = '0.7';
+      
+      const namaGuru = document.getElementById('nama').value;
+      const tanggal = document.getElementById('tanggal').value;
+      const jam = document.getElementById('jam').value;
+      const status = document.getElementById('status').value;
+      const lokasi = document.getElementById('lokasi').value;
+      
+      const data = {
+        nama: namaGuru,
+        tanggal: tanggal,
+        jam: jam,
+        status: status,
+        lokasi: lokasi
+      };
+      
+      const gsheetUrl = 'https://script.google.com/macros/s/AKfycbyJozbt1i_hGH-0c61fX-IEKgTnJdsm8-E4eqoRrJZGNuVsJMNswJDWubigwef_tK8_/exec';
+      
+      try {
+        const response = await fetch(gsheetUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data)
+        });
+        
+        showToast('Absensi berhasil dikirim!', 'success');
+        
+        document.getElementById('nama').value = '';
+        document.getElementById('status').value = '';
+        
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tanggal').value = today;
+        
+        const now = new Date();
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        document.getElementById('jam').value = `${hours}:${minutes}`;
+        
+        locationDetected = false;
+        submitButton.disabled = true;
+        submitButton.textContent = 'Menunggu Lokasi...';
+        submitButton.style.opacity = '0.5';
+        document.getElementById('lokasi').value = '';
+        document.getElementById('locationMessage').textContent = '';
+        
+        document.getElementById('cameraPreview').style.display = 'none';
+        document.getElementById('photoPreview').style.display = 'none';
+        document.getElementById('openCameraBtn').style.display = 'block';
+        document.getElementById('captureBtn').style.display = 'none';
+        document.getElementById('retakeBtn').style.display = 'none';
+        document.getElementById('capturedImage').src = '';
+        
+        setTimeout(() => {
+          detectLocation();
+        }, 500);
+        
+      } catch (error) {
+        console.error('Error:', error);
+        showToast('Error: ' + error.message, 'error');
+        submitButton.textContent = originalText;
+        submitButton.disabled = false;
+        submitButton.style.opacity = '1';
+      }
+      
+      isSubmitting = false;
+    });
+
+    let deferredPrompt;
+    const manualInstallButton = document.getElementById('manualInstallButton');
+    const installButtonText = document.getElementById('installButtonText');
+    
+    let stream = null;
+    
+    async function openCamera() {
+      const cameraPreview = document.getElementById('cameraPreview');
+      const photoPreview = document.getElementById('photoPreview');
+      const videoElement = document.getElementById('videoElement');
+      const openCameraBtn = document.getElementById('openCameraBtn');
+      const captureBtn = document.getElementById('captureBtn');
+      const retakeBtn = document.getElementById('retakeBtn');
+      
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({ 
+          video: { facingMode: 'user' },
+          audio: false 
+        });
+        
+        videoElement.srcObject = stream;
+        cameraPreview.style.display = 'block';
+        photoPreview.style.display = 'none';
+        openCameraBtn.style.display = 'none';
+        captureBtn.style.display = 'block';
+        retakeBtn.style.display = 'none';
+        
+        showToast('Kamera siap! Ambil foto selfie Anda', 'info');
+      } catch (error) {
+        showToast('Tidak dapat mengakses kamera. Mohon izinkan akses kamera.', 'error');
+        console.error('Camera error:', error);
+      }
+    }
+    
+    function capturePhoto() {
+      const videoElement = document.getElementById('videoElement');
+      const canvasElement = document.getElementById('canvasElement');
+      const capturedImage = document.getElementById('capturedImage');
+      const cameraPreview = document.getElementById('cameraPreview');
+      const photoPreview = document.getElementById('photoPreview');
+      const openCameraBtn = document.getElementById('openCameraBtn');
+      const captureBtn = document.getElementById('captureBtn');
+      const retakeBtn = document.getElementById('retakeBtn');
+      
+      canvasElement.width = videoElement.videoWidth;
+      canvasElement.height = videoElement.videoHeight;
+      
+      const context = canvasElement.getContext('2d');
+      context.drawImage(videoElement, 0, 0, canvasElement.width, canvasElement.height);
+      
+      const imageDataUrl = canvasElement.toDataURL('image/jpeg');
+      capturedImage.src = imageDataUrl;
+      
+      if (stream) {
+        stream.getTracks().forEach(track => track.stop());
+        stream = null;
+      }
+      
+      cameraPreview.style.display = 'none';
+      photoPreview.style.display = 'flex';
+      captureBtn.style.display = 'none';
+      retakeBtn.style.display = 'block';
+      
+      showToast('Foto berhasil diambil! ', 'success');
+    }
+    
+    function retakePhoto() {
+      const cameraPreview = document.getElementById('cameraPreview');
+      const photoPreview = document.getElementById('photoPreview');
+      const openCameraBtn = document.getElementById('openCameraBtn');
+      const captureBtn = document.getElementById('captureBtn');
+      const retakeBtn = document.getElementById('retakeBtn');
+      
+      photoPreview.style.display = 'none';
+      openCameraBtn.style.display = 'block';
+      retakeBtn.style.display = 'none';
+    }
+    
+    function checkIfInstalled() {
+      if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone) {
+        manualInstallButton.style.display = 'none';
+        return true;
+      }
+      return false;
+    }
+    
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+      if (!checkIfInstalled()) {
+        manualInstallButton.style.display = 'flex';
+        installButtonText.textContent = 'Install Aplikasi';
+      }
+    });
+    
+    window.installApp = async function() {
+      if (checkIfInstalled()) {
+        showToast('Aplikasi sudah terinstall! ', 'info');
+        return;
+      }
+      
+      if (!deferredPrompt) {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+        const isAndroid = /Android/.test(navigator.userAgent);
+        
+        if (isIOS) {
+          showToast('Untuk install: Tap tombol Share ()  "Add to Home Screen"', 'info');
+        } else if (isAndroid) {
+          showToast('Untuk install: Tap menu ()  "Add to Home screen" atau "Install app"', 'info');
+        } else {
+          showToast('Untuk install: Klik icon Install () di address bar browser', 'info');
+        }
+        return;
+      }
+      
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      
+      if (outcome === 'accepted') {
+        showToast('Aplikasi berhasil diinstall! ', 'success');
+        manualInstallButton.style.display = 'none';
+      }
+      
+      deferredPrompt = null;
+    };
+    
+    window.addEventListener('appinstalled', () => {
+      showToast('Aplikasi siap digunakan! ', 'success');
+      manualInstallButton.style.display = 'none';
+    });
+    
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('data:application/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdpbnN0YWxsJywgZnVuY3Rpb24oZXZlbnQpIHsKICBzZWxmLnNraXBXYWl0aW5nKCk7Cn0pOwoKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdhY3RpdmF0ZScsIGZ1bmN0aW9uKGV2ZW50KSB7CiAgcmV0dXJuIHNlbGYuY2xpZW50cy5jbGFpbSgpOwp9KTsKCnNlbGYuYWRkRXZlbnRMaXN0ZW5lcignZmV0Y2gnLCBmdW5jdGlvbihldmVudCkgewogIGV2ZW50LnJlc3BvbmRXaXRoKAogICAgZmV0Y2goZXZlbnQucmVxdWVzdCkuY2F0Y2goZnVuY3Rpb24oKSB7CiAgICAgIHJldHVybiBuZXcgUmVzcG9uc2UoJ09mZmxpbmUnLCB7IHN0YXR1czogNTAzIH0pOwogICAgfSkKICApOwp9KTs=')
+        .catch(() => {});
+    }
+
+    async function initApp() {
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('tanggal').value = today;
+      
+      const now = new Date();
+      const hours = String(now.getHours()).padStart(2, '0');
+      const minutes = String(now.getMinutes()).padStart(2, '0');
+      document.getElementById('jam').value = `${hours}:${minutes}`;
+      
+      checkIfInstalled();
+      detectLocation();
+      
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities: (config) => ({
+            recolorables: [
+              {
+                get: () => config.background_color || defaultConfig.background_color,
+                set: (value) => {
+                  config.background_color = value;
+                  window.elementSdk.setConfig({ background_color: value });
+                }
+              },
+              {
+                get: () => config.card_color || defaultConfig.card_color,
+                set: (value) => {
+                  config.card_color = value;
+                  window.elementSdk.setConfig({ card_color: value });
+                }
+              },
+              {
+                get: () => config.text_color || defaultConfig.text_color,
+                set: (value) => {
+                  config.text_color = value;
+                  window.elementSdk.setConfig({ text_color: value });
+                }
+              },
+              {
+                get: () => config.primary_button || defaultConfig.primary_button,
+                set: (value) => {
+                  config.primary_button = value;
+                  window.elementSdk.setConfig({ primary_button: value });
+                }
+              },
+              {
+                get: () => config.border_color || defaultConfig.border_color,
+                set: (value) => {
+                  config.border_color = value;
+                  window.elementSdk.setConfig({ border_color: value });
+                }
+              }
+            ],
+            borderables: [],
+            fontEditable: {
+              get: () => config.font_family || defaultConfig.font_family,
+              set: (value) => {
+                config.font_family = value;
+                window.elementSdk.setConfig({ font_family: value });
+              }
+            },
+            fontSizeable: {
+              get: () => config.font_size || defaultConfig.font_size,
+              set: (value) => {
+                config.font_size = value;
+                window.elementSdk.setConfig({ font_size: value });
+              }
+            }
+          }),
+          mapToEditPanelValues: (config) => new Map([
+            ["form_title", config.form_title || defaultConfig.form_title],
+            ["submit_button_text", config.submit_button_text || defaultConfig.submit_button_text]
+          ])
+        });
+      }
+      
+      await onConfigChange(defaultConfig);
+    }
+
+    initApp();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9a8768e2a0e5f910',t:'MTc2NDgxMDQ3Ni4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
